@@ -1,0 +1,31 @@
+name: Proton Clang Auto Release
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: linux-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        lfs: true
+
+    - name: Create zip
+      run: |
+        ZIP=proton-clang19-$(date +%Y%m%d).zip
+        zip -r $ZIP . -x ".git/*" ".github/*"
+        echo "ZIP_NAME=$ZIP" >> $GITHUB_ENV
+
+    - name: Upload Release
+      uses: softprops/action-gh-release@v2
+      with:
+        tag_name: latest
+        name: Proton-Clang19
+        files: ${{ env.ZIP_NAME }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
