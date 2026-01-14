@@ -1,0 +1,10 @@
+*.o
+*.a
+*.tmp
+*.log
+*.zip
+*.7z
+*.tar*
+build/
+out/
+.cache/
